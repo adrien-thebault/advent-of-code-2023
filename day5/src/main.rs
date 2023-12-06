@@ -47,8 +47,8 @@ fn main() {
 
     // part 2
     let seeds = seeds
-        .iter()
-        .batching(|it| it.next().and_then(|x| it.next().map(|y| (*x, *y))))
+        .chunks(2)
+        .filter_map(|c| c.iter().copied().collect_tuple())
         .collect_vec();
 
     println!(
