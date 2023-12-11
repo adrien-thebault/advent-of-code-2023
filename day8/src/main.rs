@@ -46,7 +46,7 @@ fn main() {
             .cycle()
             .fold_while((1, nodes[start].into()), |(i, acc): (_, [_; 2]), dir| {
                 if acc[*dir] == end {
-                    Done((i, Default::default()))
+                    Done((i, [0, 0]))
                 } else {
                     Continue((i + 1, nodes[acc[*dir]].into()))
                 }
@@ -67,7 +67,7 @@ fn main() {
                     .cycle()
                     .fold_while((1, nodes[start].into()), |(i, acc): (_, [_; 2]), dir| {
                         if names[acc[*dir]].ends_with('Z') {
-                            Done((i, Default::default()))
+                            Done((i, [0, 0]))
                         } else {
                             Continue((i + 1, nodes[acc[*dir]].into()))
                         }
@@ -79,7 +79,7 @@ fn main() {
                 let pgcd = {
                     let (mut a, mut b) = (acc, x);
                     loop {
-                        let r = a - (a / b) * b;
+                        let r = a % b;
                         if r == 0 {
                             break;
                         }
