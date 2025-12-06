@@ -1,22 +1,29 @@
+use advent_of_code_2023::*;
 use itertools::Itertools;
 use std::cmp;
 
 fn main() {
-    let input = String::from_utf8_lossy(include_bytes!("input.txt"))
-        .lines()
-        .map(|l| l.chars().collect_vec())
-        .collect_vec();
+    timer!("total");
+    let (input, empty_rows, empty_cols);
 
-    let (empty_rows, empty_cols) = (
-        input
-            .iter()
-            .enumerate()
-            .filter_map(|(x, l)| l.iter().all(|c| *c == '.').then_some(x))
-            .collect_vec(),
-        (0..input[0].len())
-            .filter(|y| input.iter().all(|l| l[*y] == '.'))
-            .collect_vec(),
-    );
+    {
+        timer!("prepare");
+        input = String::from_utf8_lossy(include_bytes!("../inputs/day11.txt"))
+            .lines()
+            .map(|l| l.chars().collect_vec())
+            .collect_vec();
+
+        (empty_rows, empty_cols) = (
+            input
+                .iter()
+                .enumerate()
+                .filter_map(|(x, l)| l.iter().all(|c| *c == '.').then_some(x))
+                .collect_vec(),
+            (0..input[0].len())
+                .filter(|y| input.iter().all(|l| l[*y] == '.'))
+                .collect_vec(),
+        );
+    }
 
     let solve = |input: &[_], e: usize| {
         input
@@ -49,8 +56,14 @@ fn main() {
     };
 
     // part 1
-    println!("part 1 : {}", solve(&input, 2));
+    {
+        timer!("part 1");
+        println!("part 1 : {}", solve(&input, 2));
+    }
 
     // part 2
-    println!("part 2 : {}", solve(&input, 1_000_000));
+    {
+        timer!("part 2");
+        println!("part 2 : {}", solve(&input, 1_000_000));
+    }
 }

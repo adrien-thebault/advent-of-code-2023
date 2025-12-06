@@ -1,3 +1,4 @@
+use advent_of_code_2023::*;
 use itertools::Itertools;
 use rayon::iter::{IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use std::{iter, str::FromStr};
@@ -47,47 +48,56 @@ impl Solver {
 }
 
 fn main() {
-    let input = String::from_utf8_lossy(include_bytes!("input.txt"))
-        .lines()
-        .filter_map(|l| l.split_once(' '))
-        .map(|(record, groups)| {
-            (
-                record.to_owned(),
-                groups
-                    .split(',')
-                    .filter_map(|n| usize::from_str(n).ok())
-                    .collect_vec(),
-            )
-        })
-        .collect_vec();
+    timer!("total");
+    let input;
 
-    // part 1
-    println!(
-        "part 1 : {}",
-        input
-            .par_iter()
-            .map(
-                |(record, groups)| Solver::with(record.len(), groups.len(), 1)
-                    .solve(&record.chars().chain(iter::once('.')).collect_vec(), groups)
-            )
-            .sum::<usize>()
-    );
-
-    // part 2
-    println!(
-        "part 2 : {}",
-        input
-            .into_par_iter()
+    {
+        timer!("prepare");
+        input = String::from_utf8_lossy(include_bytes!("../inputs/day12.txt"))
+            .lines()
+            .filter_map(|l| l.split_once(' '))
             .map(|(record, groups)| {
-                Solver::with(record.len(), groups.len(), 5).solve(
-                    &itertools::repeat_n(record, 5)
-                        .join("?")
-                        .chars()
-                        .chain(iter::once('.'))
+                (
+                    record.to_owned(),
+                    groups
+                        .split(',')
+                        .filter_map(|n| usize::from_str(n).ok())
                         .collect_vec(),
-                    &itertools::repeat_n(groups, 5).flatten().collect_vec(),
                 )
             })
-            .sum::<usize>()
-    );
+            .collect_vec();
+    }
+
+    // part 1
+    {
+        timer!("part 2");
+        println!(
+            "part 1 : {}",
+            input
+                .par_iter()
+                .map(
+                    |(record, groups)| Solver::with(record.len(), groups.len(), 1)
+                        .solve(&record.chars().chain(iter::once('.')).collect_vec(), groups)
+                )
+                .sum::<usize>()
+        );
+
+        // part 2
+        println!(
+            "part 2 : {}",
+            input
+                .into_par_iter()
+                .map(|(record, groups)| {
+                    Solver::with(record.len(), groups.len(), 5).solve(
+                        &itertools::repeat_n(record, 5)
+                            .join("?")
+                            .chars()
+                            .chain(iter::once('.'))
+                            .collect_vec(),
+                        &itertools::repeat_n(groups, 5).flatten().collect_vec(),
+                    )
+                })
+                .sum::<usize>()
+        );
+    }
 }

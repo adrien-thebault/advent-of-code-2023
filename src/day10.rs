@@ -1,40 +1,47 @@
+use advent_of_code_2023::*;
 use colored::*;
 use itertools::Itertools;
 use std::iter;
 
 fn main() {
-    let mut input = String::from_utf8_lossy(include_bytes!("input.txt"))
-        .lines()
-        .map(|l| {
-            iter::once('X')
-                .chain(l.chars())
-                .chain(iter::once('X'))
-                .collect_vec()
-        })
-        .collect_vec();
+    timer!("total");
+    let (mut input, sx, sy);
 
-    input.insert(0, vec!['X'; input[0].len()]);
-    input.push(vec!['X'; input[0].len()]);
+    {
+        timer!("prepare");
+        input = String::from_utf8_lossy(include_bytes!("../inputs/day10.txt"))
+            .lines()
+            .map(|l| {
+                iter::once('X')
+                    .chain(l.chars())
+                    .chain(iter::once('X'))
+                    .collect_vec()
+            })
+            .collect_vec();
 
-    let (sx, sy) = input
-        .iter()
-        .enumerate()
-        .find_map(|(x, l)| l.iter().position(|c| *c == 'S').map(|y| (x, y)))
-        .unwrap();
+        input.insert(0, vec!['X'; input[0].len()]);
+        input.push(vec!['X'; input[0].len()]);
 
-    match (
-        ['-', 'J', '7'].contains(&input[sx][sy + 1]),
-        ['-', 'L', 'F'].contains(&input[sx][sy - 1]),
-        ['|', 'F', '7'].contains(&input[sx - 1][sy]),
-        ['|', 'L', 'J'].contains(&input[sx + 1][sy]),
-    ) {
-        (true, true, false, false) => input[sx][sy] = '-',
-        (true, false, true, false) => input[sx][sy] = 'L',
-        (true, false, false, true) => input[sx][sy] = 'F',
-        (false, true, true, false) => input[sx][sy] = 'J',
-        (false, true, false, true) => input[sx][sy] = '7',
-        (false, false, true, true) => input[sx][sy] = '|',
-        _ => panic!(),
+        (sx, sy) = input
+            .iter()
+            .enumerate()
+            .find_map(|(x, l)| l.iter().position(|c| *c == 'S').map(|y| (x, y)))
+            .unwrap();
+
+        match (
+            ['-', 'J', '7'].contains(&input[sx][sy + 1]),
+            ['-', 'L', 'F'].contains(&input[sx][sy - 1]),
+            ['|', 'F', '7'].contains(&input[sx - 1][sy]),
+            ['|', 'L', 'J'].contains(&input[sx + 1][sy]),
+        ) {
+            (true, true, false, false) => input[sx][sy] = '-',
+            (true, false, true, false) => input[sx][sy] = 'L',
+            (true, false, false, true) => input[sx][sy] = 'F',
+            (false, true, true, false) => input[sx][sy] = 'J',
+            (false, true, false, true) => input[sx][sy] = '7',
+            (false, false, true, true) => input[sx][sy] = '|',
+            _ => panic!(),
+        }
     }
 
     // part 1

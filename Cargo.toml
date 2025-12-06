@@ -1,3 +1,61 @@
-[workspace]
-members = ["day1", "day2", "day3", "day4", "day5", "day6", "day7", "day8", "day9", "day10", "day11", "day12"]
-resolver = "2"
+[package]
+name = "advent-of-code-2023"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "day1"
+path = "src/day1.rs"
+
+[[bin]]
+name = "day2"
+path = "src/day2.rs"
+
+[[bin]]
+name = "day3"
+path = "src/day3.rs"
+
+[[bin]]
+name = "day4"
+path = "src/day4.rs"
+
+[[bin]]
+name = "day5"
+path = "src/day5.rs"
+
+[[bin]]
+name = "day6"
+path = "src/day6.rs"
+
+[[bin]]
+name = "day7"
+path = "src/day7.rs"
+
+[[bin]]
+name = "day8"
+path = "src/day8.rs"
+
+[[bin]]
+name = "day9"
+path = "src/day9.rs"
+
+[[bin]]
+name = "day10"
+path = "src/day10.rs"
+
+[[bin]]
+name = "day11"
+path = "src/day11.rs"
+
+[[bin]]
+name = "day12"
+path = "src/day12.rs"
+
+[[bin]]
+name = "day13"
+path = "src/day13.rs"
+
+[dependencies]
+itertools = "0.14.0"
+rayon = "1.11.0"
+colored = "3.0.0"
